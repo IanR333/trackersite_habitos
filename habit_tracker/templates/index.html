@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Habit Dashboard</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+body {
+    font-family: 'Inter', sans-serif;
+    margin: 0;
+    background: #f8fafc;
+    color: #0f172a;
+}
+
+/* NAVBAR */
+.nav {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 60px;
+    background: white;
+    border-bottom: 1px solid #e2e8f0;
+}
+
+.logo {
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.menu a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: #334155;
+}
+
+/* HERO */
+.hero {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 60px;
+}
+
+.hero-text {
+    max-width: 500px;
+}
+
+.hero h1 {
+    font-size: 48px;
+    line-height: 1.2;
+}
+
+.hero span {
+    color: #ef4444;
+}
+
+.hero p {
+    color: #64748b;
+    margin: 20px 0;
+}
+
+.btn-main {
+    background: #ef4444;
+    color: white;
+    padding: 14px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+/* IMAGE */
+.hero img {
+    width: 400px;
+}
+
+/* HABITS */
+.section {
+    padding: 40px 60px;
+}
+
+.card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+
+.done {
+    background: #22c55e;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+.notdone {
+    background: #ef4444;
+    color: white;
+    border: none;
+    padding: 10px;
+    border-radius: 6px;
+}
+
+/* INPUT */
+.form-box {
+    margin-bottom: 20px;
+}
+
+input {
+    padding: 12px;
+    width: 250px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+}
+
+.add-btn {
+    padding: 12px;
+    background: #3b82f6;
+    color: white;
+    border: none;
+    border-radius: 8px;
+}
+
+/* RESPONSIVO */
+@media(max-width: 900px){
+    .hero {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero img {
+        margin-top: 30px;
+    }
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="nav">
+    <div class="logo">HABIT.</div>
+    <div class="menu">
+        <a href="#">Início</a>
+        <a href="#">Hábitos</a>
+        <a href="#">Sobre</a>
+    </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+    <div class="hero-text">
+        <h1>Organize seus hábitos. <span>Transforme sua vida.</span></h1>
+        <p>Construa disciplina, acompanhe sua consistência e evolua todos os dias.</p>
+
+        <form action="/add" method="POST" class="form-box">
+            <input type="text" name="habit" placeholder="Novo hábito..." required>
+            <button class="btn-main">Adicionar</button>
+        </form>
+    </div>
+
+    <img src="https://images.unsplash.com/photo-1520975916090-3105956dac38" alt="">
+</div>
+
+<!-- HABITS -->
+<div class="section">
+
+    <h2>Seus Hábitos</h2>
+
+    {% for habit, days in habits.items() %}
+    <div class="card">
+        <strong>{{ habit }}</strong>
+
+        <form action="/toggle" method="POST">
+            <input type="hidden" name="habit" value="{{ habit }}">
+            <input type="hidden" name="today" value="{{ today }}">
+
+            {% if days[today] %}
+                <button class="done">✔ Concluído</button>
+            {% else %}
+                <button class="notdone">✘ Pendente</button>
+            {% endif %}
+        </form>
+    </div>
+    {% endfor %}
+
+</div>
+
+</body>
+</html>
